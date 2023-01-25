@@ -1,0 +1,26 @@
+<!-- 
+    수정 완료 -> 작성 완료 후, 작성한 글을 볼 수 있는 detail 페이지로 리다이렉트
+    작성자의 credential 인증 필요
+    글 수정완료 후, 팝업 메세지(?)
+-->
+
+<html>
+    <head>
+    </head>
+    <body>
+        <h1>Update Your Post!</h1>
+        <div>
+            <form action="" method ="post">
+                {% csrf_token %}
+                <fieldset style= "width:150">
+                    <legend>글 수정하기</legend>
+                    제목: <input type="text" name="title" value="{{post.article.title}}"><br><br>
+                    작성자: <input type="text" name="author" value="{{post.owner}}"><br><br>
+                    본문: <textarea name="text" id="" cols="100" rows="50">{{post.article.text}}</textarea><br><br>
+                    <input style ="float: right" type="submit" value="수정 완료">
+                </fieldset><br>
+            </form>
+        </div>
+    </body>
+</html>
+

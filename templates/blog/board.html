@@ -1,0 +1,137 @@
+<!--
+    검색창
+-->
+<html>
+    <head>
+        <script language="javascript">
+            function new_post(){
+                window.open("{% url 'blog:newpost' %}","New Post","width=400, height=300")
+            }
+        </script>
+        <style>
+            body {
+                padding:1.5em;
+                background: #f5f5f5
+            }
+
+              table {
+                border: 1px #a39485 solid;
+                font-size: .9em;
+                box-shadow: 0 2px 5px rgba(0,0,0,.25);
+                width: 100%;
+                border-collapse: collapse;
+                border-radius: 5px;
+                overflow: hidden;
+              }
+              
+              th {
+                text-align: left;
+              }
+                
+              thead {
+                font-weight: bold;
+                color: #fff;
+                background: #73685d;
+              }
+                
+               td, th {
+                padding: 1em .5em;
+                vertical-align: middle;
+              }
+              
+              tr:hover td{
+                background : #EDDFB3;
+             }
+                
+               td {
+                border-bottom: 1px solid rgba(0,0,0,.1);
+                background: #fff;
+              }
+              
+              a {
+                color: #73685d;
+              }
+                
+               @media all and (max-width: 768px) {
+                  
+                table, thead, tbody, th, td, tr {
+                  display: block;
+                }
+                
+                th {
+                  text-align: right;
+                }
+                
+                table {
+                  position: relative; 
+                  padding-bottom: 0;
+                  border: none;
+                  box-shadow: 0 0 10px rgba(0,0,0,.2);
+                }
+                
+                thead {
+                  float: left;
+                  white-space: nowrap;
+                }
+                
+                tbody {
+                  overflow-x: auto;
+                  overflow-y: hidden;
+                  position: relative;
+                  white-space: nowrap;
+                }
+                
+                tr {
+                  display: inline-block;
+                  vertical-align: top;
+                }
+
+                th {
+                  border-bottom: 1px solid #a39485;
+                }
+                
+                td {
+                  border-bottom: 1px solid #e5e5e5;
+                }
+                }
+        </style>
+    </head>
+    <body>
+        <h1>This is Board Page</h1>
+        <div>
+            {% if user.is_authenticated %}
+            <p>Hi, {{user.username}}. Welcome to our service!</p>
+            <button onClick="location.href='{% url 'users:logout' %}'">LogOut</button>
+            <button onClick="location.href='{% url 'users:mypage' %}'">MyPage</button>
+            {% elif user.is_anonymous %}
+            <button onClick="location.href='{% url 'users:main_login' %}'">Login Page</button>
+            {% endif %}
+            <button onClick="new_post()">New Post</button>
+        </div>
+        {# 로그인과 상관없이 글을 볼 수 있음 #}
+        <br>
+        <br>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>POST NUM</th>
+                        <th>TITLE</th>
+                        <th>AUTHOR</th>
+                        <th>DATE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in post_list %}
+                    <tr onClick="location.href='{% url 'blog:postdetail' post.id %}'">    
+                        <td>{{post.id}}</td>
+                        <td>{{post.article.title}}</td>
+                        <td>{{post.owner}}</td>
+                        <td>{{post.pub_date}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
